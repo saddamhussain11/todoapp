@@ -5,7 +5,9 @@ import 'package:todoapp/constant/appcolors.dart';
 import 'package:todoapp/constant/appicons.dart';
 import 'package:todoapp/constant/appimages.dart';
 import 'package:todoapp/controller/authcontroller.dart';
+import 'package:todoapp/view/auth/forgatpasword_screen.dart';
 import 'package:todoapp/view/auth/signup_screen.dart';
+import 'package:todoapp/view/user/addtodolist_screen.dart';
 import 'package:todoapp/widget/Button/Custom_Container.dart';
 import 'package:todoapp/widget/Fields/custom_textfield.dart';
 
@@ -41,7 +43,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   SizedBox(
                     height: 21.h,
                   ),
-                  Appimages.Signin,
+                  Image.asset(Appimages.Signin),
                   SizedBox(
                     height: 15.h,
                   ),
@@ -65,12 +67,20 @@ class _LoginScreenState extends State<LoginScreen> {
                   SizedBox(
                     height: 38.h,
                   ),
-                  Text(
-                    'Forgot Password ?',
-                    style: TextStyle(
-                        fontSize: 13.sp,
-                        fontWeight: FontWeight.w500,
-                        color: Appcolors.Colorgreen),
+                  InkWell(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ForgatpaswordScreen()));
+                    },
+                    child: Text(
+                      'Forgot Password ?',
+                      style: TextStyle(
+                          fontSize: 13.sp,
+                          fontWeight: FontWeight.w500,
+                          color: Appcolors.Colorgreen),
+                    ),
                   ),
                   SizedBox(
                     height: 45.h,
@@ -80,7 +90,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => LoginScreen()));
+                              builder: (context) => AddtodolistScreen()));
                     },
                     child: CustomContainer(
                       width: 220.w,

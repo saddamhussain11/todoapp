@@ -20,9 +20,10 @@ class Onboarding extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 36.w),
-              child: Appimages.Onboarding,
-            ),
+                padding: EdgeInsets.symmetric(horizontal: 36.w),
+                child: Image.asset(
+                  Appimages.Onboarding,
+                )),
             SizedBox(
               height: 43.h,
             ),

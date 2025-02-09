@@ -3,7 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:todoapp/view/auth/forgatpasword_screen.dart';
 import 'package:todoapp/view/auth/splash_screen.dart';
+import 'package:todoapp/view/user/addtodolist_screen.dart';
+import 'package:todoapp/view/user/home_screen.dart';
 
 void main() async {
   SystemChrome.setSystemUIOverlayStyle(
