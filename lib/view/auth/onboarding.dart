@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:todoapp/constant/appcolors.dart';
 import 'package:todoapp/constant/appimages.dart';
 import 'package:todoapp/view/auth/login_screen.dart';
@@ -47,8 +48,9 @@ class Onboarding extends StatelessWidget {
             ),
             InkWell(
               onTap: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => SignupScreen()));
+                Get.to(SignupScreen());
+                // Navigator.push(context,
+                //     MaterialPageRoute(builder: (context) => SignupScreen()));
               },
               child: CustomContainer(
                 width: 220.w,

@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:todoapp/view/auth/forgatpasword_screen.dart';
 import 'package:todoapp/view/auth/splash_screen.dart';
 import 'package:todoapp/view/user/addtodolist_screen.dart';
+import 'package:todoapp/view/user/detail_screen.dart';
 import 'package:todoapp/view/user/home_screen.dart';
 
 void main() async {

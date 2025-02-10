@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:todoapp/constant/appcolors.dart';
 import 'package:todoapp/constant/appimages.dart';
+import 'package:todoapp/view/user/detail_screen.dart';
 import 'package:todoapp/widget/Button/Custom_Container.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -122,6 +123,13 @@ class _HomeScreenState extends State<HomeScreen> {
                               backgroundColor: getRandomColor(),
                               borderRadius: BorderRadius.circular(10),
                               child: ListTile(
+                                onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              DetailScreen()));
+                                },
                                 title: Text(todotask[index]['title']),
                                 subtitle: Text(todotask[index]['subtitle']),
                                 trailing: Text(todotask[index]['time']),

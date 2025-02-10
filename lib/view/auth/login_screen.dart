@@ -19,6 +19,8 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  final _formkey = GlobalKey<FormState>();
+
   Authcontroller authcontroller = Get.put(Authcontroller());
   @override
   Widget build(BuildContext context) {
@@ -47,23 +49,40 @@ class _LoginScreenState extends State<LoginScreen> {
                   SizedBox(
                     height: 15.h,
                   ),
-                  Column(spacing: 26.h, children: [
-                    CustomTextfield(
-                      width: 320.w,
-                      color: Appcolors.Colorweight,
-                      labeltext: 'Enter your Ful name',
-                      inputType: TextInputType.text,
-                      obscuretext: false,
-                    ),
-                    CustomTextfield(
-                      width: 320.w,
-                      color: Appcolors.Colorweight,
-                      labeltext: 'Enter your pasword',
-                      inputType: TextInputType.visiblePassword,
-                      obscuretext: true,
-                      showSuffixIcon: true,
-                    ),
-                  ]),
+                  Form(
+                    key: _formkey,
+                    child: Column(spacing: 26.h, children: [
+                      CustomTextfield(
+                        width: 320.w,
+                        color: Appcolors.Colorweight,
+                        labeltext: 'Enter your Ful name',
+                        inputType: TextInputType.text,
+                        obscuretext: false,
+                        validator: (value) {
+                          if (value == '' || value == null) {
+                            return 'Please enter your name';
+                          }
+                          return null;
+                        },
+                      ),
+                      CustomTextfield(
+                        width: 320.w,
+                        color: Appcolors.Colorweight,
+                        labeltext: 'Enter your pasword',
+                        inputType: TextInputType.visiblePassword,
+                        obscuretext: true,
+                        showSuffixIcon: true,
+                        validator: (value) {
+                          if (value == '' || value == null) {
+                            return 'Please enter your Pasword';
+                          } else if (value.length < 6) {
+                            return 'Enter at least 6 digit';
+                          }
+                          return null;
+                        },
+                      ),
+                    ]),
+                  ),
                   SizedBox(
                     height: 38.h,
                   ),

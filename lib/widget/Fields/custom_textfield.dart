@@ -12,7 +12,7 @@ class CustomTextfield extends StatefulWidget {
   final Color? borderColor;
   final double? width; // Optional width
   final TextEditingController? controller;
-  final FormFieldValidator<String>? validator;
+  final String? Function(String?)? validator;
 
   const CustomTextfield({
     super.key,
