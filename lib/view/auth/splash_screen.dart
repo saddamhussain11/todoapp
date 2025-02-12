@@ -1,7 +1,10 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:get_storage/get_storage.dart';
+import 'package:todoapp/view/auth/login_screen.dart';
 import 'package:todoapp/view/auth/onboarding.dart';
+import 'package:todoapp/view/auth/signup_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -11,11 +14,19 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+  final box = GetStorage();
+
   void initState() {
     super.initState();
     Timer(const Duration(seconds: 4), () {
-      Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (_) => Onboarding()));
+      final bool onBoardingPlayed = box.read('onBoardingPlayed');
+      if (onBoardingPlayed == true) {
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (_) => SignupScreen()));
+      } else {
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (_) => Onboarding()));
+      }
     });
   }
 

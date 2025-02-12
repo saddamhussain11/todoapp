@@ -3,17 +3,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:todoapp/view/auth/forgatpasword_screen.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:todoapp/view/auth/splash_screen.dart';
-import 'package:todoapp/view/user/addtodolist_screen.dart';
-import 'package:todoapp/view/user/detail_screen.dart';
-import 'package:todoapp/view/user/home_screen.dart';
 
 void main() async {
   SystemChrome.setSystemUIOverlayStyle(
       const SystemUiOverlayStyle(statusBarColor: Colors.transparent));
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  await GetStorage.init();
+
+  final box = GetStorage();
+  if (box.read('onBoardingPlayed') == null) {
+    box.write('onBoardingPlayed', false);
+  }
+
   runApp(const MyApp());
 }
 

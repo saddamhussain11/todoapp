@@ -3,8 +3,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:todoapp/constant/appcolors.dart';
 import 'package:todoapp/constant/appimages.dart';
 import 'package:todoapp/view/user/home_screen.dart';
-import 'package:todoapp/widget/Button/Custom_Container.dart';
+import 'package:todoapp/widget/Button/Custom_Buton.dart';
 import 'package:todoapp/widget/Fields/custom_textfield.dart';
+import 'package:todoapp/widget/card/Custom_Container.dart';
 
 class AddtodolistScreen extends StatelessWidget {
   const AddtodolistScreen({super.key});
@@ -73,18 +74,12 @@ class AddtodolistScreen extends StatelessWidget {
                                   MaterialPageRoute(
                                       builder: (context) => HomeScreen()));
                             },
-                            child: CustomContainer(
+                            child: Custombuton(
                               width: 220.w,
                               height: 44.h,
                               backgroundColor: Appcolors.Colorgreen,
-                              child: Center(
-                                  child: Text(
-                                'Add to list ',
-                                style: TextStyle(
-                                    fontSize: 15.sp,
-                                    fontWeight: FontWeight.w500,
-                                    color: Appcolors.Colorweight),
-                              )),
+                              ontap: () {},
+                              title: 'Add to list',
                             ),
                           ),
                         ]),

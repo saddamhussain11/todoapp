@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:todoapp/constant/appcolors.dart';
 import 'package:todoapp/constant/appimages.dart';
 import 'package:todoapp/view/auth/login_screen.dart';
 import 'package:todoapp/view/auth/signup_screen.dart';
-import 'package:todoapp/widget/Button/Custom_Container.dart';
+import 'package:todoapp/widget/Button/Custom_Buton.dart';
 
 class Onboarding extends StatelessWidget {
   const Onboarding({super.key});
@@ -46,25 +47,16 @@ class Onboarding extends StatelessWidget {
             SizedBox(
               height: 56.h,
             ),
-            InkWell(
-              onTap: () {
+            Custombuton(
+              width: 220.w,
+              height: 44.h,
+              backgroundColor: Appcolors.Colorgreen,
+              ontap: () {
+                final box = GetStorage();
+                box.write('onBoardingPlayed', true);
                 Get.to(SignupScreen());
-                // Navigator.push(context,
-                //     MaterialPageRoute(builder: (context) => SignupScreen()));
               },
-              child: CustomContainer(
-                width: 220.w,
-                height: 44.h,
-                backgroundColor: Appcolors.Colorgreen,
-                child: Center(
-                    child: Text(
-                  'Get Started ',
-                  style: TextStyle(
-                      fontSize: 15.sp,
-                      fontWeight: FontWeight.w500,
-                      color: Appcolors.Colorweight),
-                )),
-              ),
+              title: 'Get Started ',
             ),
             SizedBox(
               height: 79.h,
