@@ -53,7 +53,7 @@ class Onboarding extends StatelessWidget {
               backgroundColor: Appcolors.Colorgreen,
               ontap: () {
                 final box = GetStorage();
-                box.write('onBoardingPlayed', true);
+                box.write('onbording', true);
                 Get.to(SignupScreen());
               },
               title: 'Get Started ',

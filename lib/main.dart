@@ -12,12 +12,10 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   await GetStorage.init();
-
   final box = GetStorage();
-  if (box.read('onBoardingPlayed') == null) {
-    box.write('onBoardingPlayed', false);
+  if (box.read('onbording') == null) {
+    box.write('onbording', false);
   }
-
   runApp(const MyApp());
 }
 

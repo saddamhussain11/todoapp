@@ -69,21 +69,7 @@ class _ForgatpaswordScreenState extends State<ForgatpaswordScreen> {
                   width: 220.w,
                   height: 44.h,
                   backgroundColor: Appcolors.Colorgreen,
-                  ontap: () async {
-                    if (formkey.currentState!.validate()) {
-                      try {
-                        loding = true;
-                        setState(() {});
-                        await FirebaseAuth.instance.sendPasswordResetEmail(
-                            email: emailcontroler.text.trim());
-                        ToastUtil.success('Send Link');
-                        loding = false;
-                        setState(() {});
-                      } on FirebaseAuthException catch (e) {
-                        ToastUtil.error('error');
-                      }
-                    }
-                  },
+                  ontap: () => forgatpasword(),
                   isLoading: loding,
                   title: 'Forgat ',
                 ),
@@ -93,5 +79,21 @@ class _ForgatpaswordScreenState extends State<ForgatpaswordScreen> {
         ]),
       ),
     ));
+  }
+
+  Future forgatpasword() async {
+    if (formkey.currentState!.validate()) {
+      try {
+        loding = true;
+        setState(() {});
+        await FirebaseAuth.instance
+            .sendPasswordResetEmail(email: emailcontroler.text.trim());
+        ToastUtil.success('Send Link');
+        loding = false;
+        setState(() {});
+      } on FirebaseAuthException catch (e) {
+        ToastUtil.error('error');
+      }
+    }
   }
 }

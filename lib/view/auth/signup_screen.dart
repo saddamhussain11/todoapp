@@ -126,31 +126,7 @@ class _SignupScreenState extends State<SignupScreen> {
                     width: 220.w,
                     height: 44.h,
                     backgroundColor: Appcolors.Colorgreen,
-                    ontap: () async {
-                      if (_formKey.currentState!.validate()) {
-                        try {
-                          setState(() {
-                            isloading = true;
-                          });
-
-                          await FirebaseAuth.instance
-                              .createUserWithEmailAndPassword(
-                                  email: emailcontroler.text,
-                                  password: paswordcontroler.text);
-
-                          Get.to(() => LoginScreen());
-                          ToastUtil.success('Succes');
-                          setState(() {
-                            isloading = false;
-                          });
-                        } on FirebaseAuthException catch (e) {
-                          ToastUtil.error(e.toString());
-                          setState(() {
-                            isloading = false;
-                          });
-                        }
-                      }
-                    },
+                    ontap: () => signup(),
                     title: 'Sign up ',
                     isLoading: isloading,
                   ),
@@ -188,5 +164,29 @@ class _SignupScreenState extends State<SignupScreen> {
         ),
       ),
     );
+  }
+
+  Future signup() async {
+    if (_formKey.currentState!.validate()) {
+      try {
+        setState(() {
+          isloading = true;
+        });
+
+        await FirebaseAuth.instance.createUserWithEmailAndPassword(
+            email: emailcontroler.text, password: paswordcontroler.text);
+
+        Get.to(() => LoginScreen());
+        ToastUtil.success('Succes');
+        setState(() {
+          isloading = false;
+        });
+      } on FirebaseAuthException catch (e) {
+        ToastUtil.error(e.toString());
+        setState(() {
+          isloading = false;
+        });
+      }
+    }
   }
 }

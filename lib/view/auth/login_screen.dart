@@ -117,28 +117,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       width: 220.w,
                       height: 44.h,
                       backgroundColor: Appcolors.Colorgreen,
-                      ontap: () async {
-                        if (_formkey.currentState!.validate()) {
-                          try {
-                            isLoading = true;
-                            setState(() {});
-                            await FirebaseAuth.instance
-                                .signInWithEmailAndPassword(
-                                    email: emailcontroler.text.trim(),
-                                    password: paswordcontroler.text)
-                                .then((value) {
-                              Get.to(() => AddtodolistScreen());
-                              isLoading = false;
-                              setState(() {});
-                            });
-                            ToastUtil.success('you hvae Succesfuly Logedin');
-                          } on FirebaseAuthException catch (e) {
-                            ToastUtil.error('an error ocurd');
-                            isLoading = false;
-                            setState(() {});
-                          }
-                        }
-                      },
+                      ontap: () => signin(),
                       title: 'Log in',
                       isLoading: isLoading,
                     ),
@@ -180,5 +159,28 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
       ),
     );
+  }
+
+  Future signin() async {
+    if (_formkey.currentState!.validate()) {
+      try {
+        isLoading = true;
+        setState(() {});
+        await FirebaseAuth.instance
+            .signInWithEmailAndPassword(
+                email: emailcontroler.text.trim(),
+                password: paswordcontroler.text)
+            .then((value) {
+          Get.to(() => AddtodolistScreen());
+          isLoading = false;
+          setState(() {});
+        });
+        ToastUtil.success('you hvae Succesfuly Logedin');
+      } on FirebaseAuthException catch (e) {
+        ToastUtil.error('an error ocurd');
+        isLoading = false;
+        setState(() {});
+      }
+    }
   }
 }
