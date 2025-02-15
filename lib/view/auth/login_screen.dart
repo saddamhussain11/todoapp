@@ -10,6 +10,7 @@ import 'package:todoapp/util/toast_util.dart';
 import 'package:todoapp/view/auth/forgatpasword_screen.dart';
 import 'package:todoapp/view/auth/signup_screen.dart';
 import 'package:todoapp/view/user/addtodolist_screen.dart';
+import 'package:todoapp/view/user/home_screen.dart';
 import 'package:todoapp/widget/Button/Custom_Buton.dart';
 import 'package:todoapp/widget/Fields/custom_textfield.dart';
 
@@ -171,13 +172,13 @@ class _LoginScreenState extends State<LoginScreen> {
                 email: emailcontroler.text.trim(),
                 password: paswordcontroler.text)
             .then((value) {
-          Get.to(() => AddtodolistScreen());
+          Get.to(() => HomeScreen());
           isLoading = false;
           setState(() {});
         });
         ToastUtil.success('you hvae Succesfuly Logedin');
       } on FirebaseAuthException catch (e) {
-        ToastUtil.error('an error ocurd');
+        ToastUtil.error(e.toString());
         isLoading = false;
         setState(() {});
       }

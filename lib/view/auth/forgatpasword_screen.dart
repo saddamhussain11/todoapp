@@ -92,7 +92,9 @@ class _ForgatpaswordScreenState extends State<ForgatpaswordScreen> {
         loding = false;
         setState(() {});
       } on FirebaseAuthException catch (e) {
-        ToastUtil.error('error');
+        ToastUtil.error(e.toString());
+        loding = false;
+        setState(() {});
       }
     }
   }

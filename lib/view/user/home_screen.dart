@@ -1,9 +1,13 @@
 import 'dart:math';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:todoapp/constant/appcolors.dart';
 import 'package:todoapp/constant/appimages.dart';
+import 'package:todoapp/view/user/addtodolist_screen.dart';
 import 'package:todoapp/view/user/detail_screen.dart';
 import 'package:todoapp/widget/Button/Custom_Buton.dart';
 import 'package:todoapp/widget/card/Custom_Container.dart';
@@ -110,32 +114,56 @@ class _HomeScreenState extends State<HomeScreen> {
                   SizedBox(
                     height: 30.h,
                   ),
-                  ListView.builder(
-                      padding: EdgeInsets.zero,
-                      shrinkWrap: true,
-                      physics: NeverScrollableScrollPhysics(),
-                      itemCount: todotask.length,
-                      itemBuilder: (_, index) {
-                        return Padding(
-                            padding: EdgeInsets.all(8.sp), // Responsive padding
-                            child: CustomContainer(
-                              height: 70.h,
-                              width: 354.w,
-                              backgroundColor: getRandomColor(),
-                              borderRadius: BorderRadius.circular(10),
-                              child: ListTile(
-                                onTap: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              DetailScreen()));
-                                },
-                                title: Text(todotask[index]['title']),
-                                subtitle: Text(todotask[index]['subtitle']),
-                                trailing: Text(todotask[index]['time']),
-                              ),
-                            ));
+                  StreamBuilder(
+                      stream: FirebaseFirestore.instance
+                          .collection('Todo')
+                          .snapshots(),
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return Center(child: CircularProgressIndicator());
+                        }
+
+                        if (snapshot.hasError) {
+                          return Center(
+                              child: Text('Error: ${snapshot.error}'));
+                        }
+
+                        if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+                          return Center(child: Text('No Products Found'));
+                        }
+
+                        return ListView.builder(
+                            padding: EdgeInsets.zero,
+                            shrinkWrap: true,
+                            physics: NeverScrollableScrollPhysics(),
+                            itemCount: snapshot.data!.docs.length,
+                            itemBuilder: (_, index) {
+                              return Padding(
+                                  padding: EdgeInsets.all(
+                                      8.sp), // Responsive padding
+                                  child: CustomContainer(
+                                    height: 70.h,
+                                    width: 354.w,
+                                    backgroundColor: getRandomColor(),
+                                    borderRadius: BorderRadius.circular(10),
+                                    child: ListTile(
+                                      onTap: () {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    DetailScreen()));
+                                      },
+                                      title: Text(
+                                          snapshot.data!.docs[index]['title']),
+                                      subtitle: Text(snapshot.data!.docs[index]
+                                          ['description']),
+                                      // trailing: Text(
+                                      //     '${snapshot.data!.docs[index]['Time']}'),
+                                    ),
+                                  ));
+                            });
                       }),
                 ],
               ),
@@ -146,7 +174,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          print("FAB Pressed!");
+          Get.to(AddtodolistScreen());
         },
         backgroundColor: Appcolors.Colorgreen,
         child: Icon(Icons.add, color: Colors.white),

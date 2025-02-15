@@ -34,21 +34,21 @@ class CustomTextfield extends StatefulWidget {
 
 class _CustomTextfieldState extends State<CustomTextfield> {
   bool isvisible = false;
-  late TextEditingController _internalController;
+  // late TextEditingController _internalController;
 
-  @override
-  void initState() {
-    super.initState();
-    _internalController = widget.controller ?? TextEditingController();
-  }
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   _internalController = widget.controller ?? TextEditingController();
+  // }
 
-  @override
-  void dispose() {
-    if (widget.controller == null) {
-      _internalController.dispose();
-    }
-    super.dispose();
-  }
+  // @override
+  // void dispose() {
+  //   if (widget.controller == null) {
+  //     _internalController.dispose();
+  //   }
+  //   super.dispose();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -72,7 +72,7 @@ class _CustomTextfieldState extends State<CustomTextfield> {
         ],
       ),
       child: TextFormField(
-        controller: _internalController,
+        controller: widget.controller,
         obscureText: isvisible,
         keyboardType: widget.inputType,
         textAlign: TextAlign.start,
