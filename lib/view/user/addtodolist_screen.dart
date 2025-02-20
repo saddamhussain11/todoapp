@@ -110,34 +110,7 @@ class _AddtodolistScreenState extends State<AddtodolistScreen> {
                                 width: 220.w,
                                 height: 44.h,
                                 backgroundColor: Appcolors.Colorgreen,
-                                ontap: () async {
-                                  if (_formkey.currentState!.validate()) {
-                                    try {
-                                      Loading = true;
-                                      setState(() {});
-                                      DocumentReference docref =
-                                          FirebaseFirestore.instance
-                                              .collection('Todo')
-                                              .doc();
-                                      await docref.set({
-                                        'docid': docref.id,
-                                        'title': titlecontroler.text,
-                                        'description':
-                                            descriptioncontroler.text,
-                                        // 'Time': DateTime.now(),
-                                      });
-                                      Get.to(HomeScreen());
-                                      Loading = false;
-                                      setState(() {});
-                                      ToastUtil.success(
-                                          'you hvae Succesfuly add data');
-                                    } on FirebaseException catch (e) {
-                                      ToastUtil.error(e.toString());
-                                      Loading = false;
-                                      setState(() {});
-                                    }
-                                  }
-                                },
+                                ontap: () => Createdata(),
                                 title: 'Add to list',
                               ),
                             ),
@@ -147,5 +120,30 @@ class _AddtodolistScreenState extends State<AddtodolistScreen> {
                     ),
                   ),
                 ])));
+  }
+
+  Future Createdata() async {
+    if (_formkey.currentState!.validate()) {
+      try {
+        Loading = true;
+        setState(() {});
+        DocumentReference docref =
+            FirebaseFirestore.instance.collection('Todo').doc();
+        await docref.set({
+          'docid': docref.id,
+          'title': titlecontroler.text,
+          'description': descriptioncontroler.text,
+          'Time': DateTime.now().toString(),
+        });
+        Get.to(HomeScreen());
+        Loading = false;
+        setState(() {});
+        ToastUtil.success('you hvae Succesfuly add data');
+      } on FirebaseException catch (e) {
+        ToastUtil.error(e.toString());
+        Loading = false;
+        setState(() {});
+      }
+    }
   }
 }

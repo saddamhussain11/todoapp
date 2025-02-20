@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:todoapp/view/auth/splash_screen.dart';
+import 'package:todoapp/view/user/profile_screen.dart';
 
 void main() async {
   SystemChrome.setSystemUIOverlayStyle(

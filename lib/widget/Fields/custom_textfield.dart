@@ -13,6 +13,8 @@ class CustomTextfield extends StatefulWidget {
   final double? width; // Optional width
   final TextEditingController? controller;
   final String? Function(String?)? validator;
+  final Widget? sufixicon;
+  final bool? border;
 
   const CustomTextfield({
     super.key,
@@ -26,6 +28,8 @@ class CustomTextfield extends StatefulWidget {
     this.width, // Optional parameter
     this.controller,
     this.validator,
+    this.sufixicon,
+    this.border,
   });
 
   @override
@@ -34,21 +38,6 @@ class CustomTextfield extends StatefulWidget {
 
 class _CustomTextfieldState extends State<CustomTextfield> {
   bool isvisible = false;
-  // late TextEditingController _internalController;
-
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   _internalController = widget.controller ?? TextEditingController();
-  // }
-
-  // @override
-  // void dispose() {
-  //   if (widget.controller == null) {
-  //     _internalController.dispose();
-  //   }
-  //   super.dispose();
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -58,9 +47,12 @@ class _CustomTextfieldState extends State<CustomTextfield> {
           widget.width ?? double.infinity, // Default full width if not provided
       decoration: BoxDecoration(
         color: widget.color,
-        border: widget.borderColor != null
-            ? Border.all(
-                color: widget.borderColor!) // Border only if color is provided
+        border: widget.border != null
+            ? widget.borderColor != null
+                ? Border.all(
+                    color:
+                        widget.borderColor!) // Border only if color is provided
+                : null
             : null,
         borderRadius: const BorderRadius.all(Radius.circular(9)),
         boxShadow: [
@@ -72,11 +64,12 @@ class _CustomTextfieldState extends State<CustomTextfield> {
         ],
       ),
       child: TextFormField(
-        controller: widget.controller,
         obscureText: isvisible,
+        controller: widget.controller,
         keyboardType: widget.inputType,
         textAlign: TextAlign.start,
         textAlignVertical: TextAlignVertical.center,
+        maxLines: null,
         style: TextStyle(
           color: Appcolors.Colorblack,
           fontSize: 16.sp,
@@ -97,12 +90,9 @@ class _CustomTextfieldState extends State<CustomTextfield> {
                       isvisible = !isvisible;
                     });
                   },
-                  icon: Icon(
-                    isvisible ? Icons.visibility : Icons.visibility_off,
-                    size: 20.sp,
-                  ),
-                )
-              : null,
+                  icon:
+                      Icon(isvisible ? Icons.visibility : Icons.visibility_off))
+              : widget.sufixicon,
           hintText: widget.labeltext,
           hintStyle: TextStyle(
             color: Appcolors.Colorblack,

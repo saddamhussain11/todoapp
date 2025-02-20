@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:todoapp/view/user/edit_screen.dart';
 
 class DetailScreen extends StatefulWidget {
   const DetailScreen({super.key});
@@ -11,6 +14,7 @@ class DetailScreen extends StatefulWidget {
 class _DetailScreenState extends State<DetailScreen> {
   @override
   Widget build(BuildContext context) {
+    final arguments = Get.arguments;
     return Scaffold(
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 25.w),
@@ -18,11 +22,33 @@ class _DetailScreenState extends State<DetailScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SizedBox(
-              height: 90.h,
+              height: 70,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                IconButton(
+                    onPressed: () {
+                      Get.back();
+                    },
+                    icon: Icon(
+                      Icons.arrow_circle_left_outlined,
+                      size: 35.sp,
+                    )),
+                IconButton(
+                    onPressed: () => passArgument(),
+                    icon: Icon(
+                      Icons.edit_note,
+                      size: 40.sp,
+                    )),
+              ],
+            ),
+            SizedBox(
+              height: 70.h,
             ),
             Text(
-              'Tittle of your Task',
-              style: TextStyle(fontSize: 20.sp, fontWeight: FontWeight.w500),
+              arguments['title'],
+              style: TextStyle(fontSize: 25.sp, fontWeight: FontWeight.w500),
             ),
             SizedBox(
               height: 10.h,
@@ -34,12 +60,30 @@ class _DetailScreenState extends State<DetailScreen> {
               height: 40.h,
             ),
             Text(
-              'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using Content here, content here, making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for lorem ipsum will uncove',
-              style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w500),
+              arguments['description'],
+              style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.w500),
+            ),
+            SizedBox(
+              height: 20.h,
+            ),
+            Text(
+              textAlign: TextAlign.right,
+              arguments['time'],
+              style: TextStyle(fontSize: 13.sp, fontWeight: FontWeight.w500),
             ),
           ],
         ),
       ),
     );
+  }
+
+  void passArgument() {
+    final arguments = Get.arguments;
+
+    Get.to(() => EditScreen(), arguments: {
+      'title': arguments['title'],
+      'description': arguments['description'],
+      'docid': arguments['docid']
+    });
   }
 }

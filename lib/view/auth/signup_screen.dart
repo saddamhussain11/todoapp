@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -175,7 +176,15 @@ class _SignupScreenState extends State<SignupScreen> {
 
         await FirebaseAuth.instance.createUserWithEmailAndPassword(
             email: emailcontroler.text, password: paswordcontroler.text);
-
+        String userid = FirebaseAuth.instance.currentUser!.uid.toString();
+        DocumentReference docref =
+            FirebaseFirestore.instance.collection('userinfo').doc(userid);
+        await docref.set({
+          'name': namecontroler.text,
+          'email': emailcontroler.text,
+          'userid': userid,
+          'image': ''
+        });
         Get.to(() => LoginScreen());
         ToastUtil.success('Succes');
         setState(() {
