@@ -1,12 +1,13 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:todoapp/constant/appcolors.dart';
-import 'package:todoapp/constant/appicons.dart';
+import 'package:todoapp/controller/backend/authcontroller.dart';
+import 'package:todoapp/controller/backend/userinfo_controller.dart';
+import 'package:todoapp/module/user_model.dart';
 import 'package:todoapp/util/toast_util.dart';
-import 'package:todoapp/view/auth/login_screen.dart';
 import 'package:todoapp/widget/Fields/custom_textfield.dart';
 import 'package:todoapp/widget/card/Custom_Container.dart';
 
@@ -18,8 +19,24 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
+  Authcontroller authcontroller = Get.put(Authcontroller());
+  TextEditingController nameController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  UserinfoController userinfoController = Get.put(UserinfoController());
+  final String userid = FirebaseAuth.instance.currentUser!.uid;
+  @override
+  void initState() {
+    final UserModel argument = Get.arguments;
+    nameController.text = argument.name;
+    emailController.text = argument.email;
+
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
+    final UserModel argument = Get.arguments;
+
     return Scaffold(
       body: Column(
         children: [
@@ -43,23 +60,30 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   SizedBox(
                     height: 20.h,
                   ),
-                  InkWell(
-                    onTap: () {},
-                    child: CircleAvatar(
-                      backgroundColor: Appcolors.Colorgrey,
-                      maxRadius: 60.r,
-                      child: Icon(
-                        Icons.image,
-                        size: 50.sp,
+                  Stack(
+                    children: [
+                      CircleAvatar(
+                        backgroundColor: Appcolors.Colorgrey,
+                        maxRadius: 60.r,
+                        backgroundImage: NetworkImage(argument.image),
                       ),
-                    ),
+                      CircleAvatar(
+                        maxRadius: 60.r,
+                        backgroundColor:
+                            Colors.grey.shade100.withValues(alpha: 0.6),
+                        child: Icon(
+                          Icons.image,
+                          size: 50.sp,
+                        ),
+                      )
+                    ],
                   ),
                   SizedBox(
                     height: 28.h,
                   ),
                   Flexible(
                     child: CustomContainer(
-                      height: 45.h,
+                      height: 55.h,
                       width: double.infinity.w,
                       backgroundColor: Appcolors.Colorgreen2,
                     ),
@@ -87,6 +111,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   height: 15.h,
                 ),
                 CustomTextfield(
+                  controller: nameController,
                   color: Appcolors.Colorweight,
                   border: true,
                   borderColor: Appcolors.Colorweight,
@@ -99,12 +124,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   height: 15.h,
                 ),
                 CustomTextfield(
+                  controller: emailController,
                   color: Appcolors.Colorweight,
                   border: true,
                   borderColor: Appcolors.Colorweight,
                   labeltext: '',
                   inputType: TextInputType.text,
                   obscuretext: false,
+                  readonly: true,
                 ),
                 SizedBox(
                   height: 25.h,
@@ -119,12 +146,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           fontWeight: FontWeight.w500,
                           color: Appcolors.Colorgreen),
                     ),
-                    Text(
-                      'Save',
-                      style: TextStyle(
-                          fontSize: 19.sp,
-                          fontWeight: FontWeight.w500,
-                          color: Appcolors.Colorgreen),
+                    InkWell(
+                      onTap: () {
+                        userinfoController.updateuserinfo(
+                            nameController, userid);
+                        userinfoController.getuserinfo();
+                      },
+                      child: Text(
+                        'Save',
+                        style: TextStyle(
+                            fontSize: 19.sp,
+                            fontWeight: FontWeight.w500,
+                            color: Appcolors.Colorgreen),
+                      ),
                     ),
                   ],
                 ),
@@ -168,11 +202,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   height: 15.h,
                 ),
                 InkWell(
-                  onTap: () async {
-                    await FirebaseAuth.instance.signOut();
-                    ToastUtil.success('Logout');
-                    Get.to(LoginScreen());
-                  },
+                  onTap: () => authcontroller.logout(),
                   child: Row(
                     children: [
                       Icon(

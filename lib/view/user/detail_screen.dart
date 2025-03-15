@@ -1,7 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:todoapp/module/todolist_model.dart';
 import 'package:todoapp/view/user/edit_screen.dart';
 
 class DetailScreen extends StatefulWidget {
@@ -14,7 +16,8 @@ class DetailScreen extends StatefulWidget {
 class _DetailScreenState extends State<DetailScreen> {
   @override
   Widget build(BuildContext context) {
-    final arguments = Get.arguments;
+    final TodolistModel arguments = Get.arguments;
+    final theme = Theme.of(context);
     return Scaffold(
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 25.w),
@@ -46,10 +49,7 @@ class _DetailScreenState extends State<DetailScreen> {
             SizedBox(
               height: 70.h,
             ),
-            Text(
-              arguments['title'],
-              style: TextStyle(fontSize: 25.sp, fontWeight: FontWeight.w500),
-            ),
+            Text(arguments.title, style: theme.textTheme.bodyLarge),
             SizedBox(
               height: 10.h,
             ),
@@ -60,7 +60,7 @@ class _DetailScreenState extends State<DetailScreen> {
               height: 40.h,
             ),
             Text(
-              arguments['description'],
+              arguments.description,
               style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.w500),
             ),
             SizedBox(
@@ -68,7 +68,7 @@ class _DetailScreenState extends State<DetailScreen> {
             ),
             Text(
               textAlign: TextAlign.right,
-              arguments['time'],
+              arguments.Time,
               style: TextStyle(fontSize: 13.sp, fontWeight: FontWeight.w500),
             ),
           ],
@@ -78,12 +78,14 @@ class _DetailScreenState extends State<DetailScreen> {
   }
 
   void passArgument() {
-    final arguments = Get.arguments;
-
-    Get.to(() => EditScreen(), arguments: {
-      'title': arguments['title'],
-      'description': arguments['description'],
-      'docid': arguments['docid']
-    });
+    final String userid = FirebaseAuth.instance.currentUser!.uid;
+    final TodolistModel arguments = Get.arguments;
+    TodolistModel todolistModel = TodolistModel(
+        docid: arguments.docid,
+        userid: userid,
+        title: arguments.title,
+        description: arguments.description,
+        Time: arguments.Time);
+    Get.to(EditScreen(), arguments: todolistModel);
   }
 }

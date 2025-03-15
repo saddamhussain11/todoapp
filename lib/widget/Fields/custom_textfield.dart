@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:todoapp/constant/appcolors.dart';
+import 'package:todoapp/controller/Ui/isvisible_controller.dart';
 
 class CustomTextfield extends StatefulWidget {
   final String labeltext;
@@ -15,6 +17,8 @@ class CustomTextfield extends StatefulWidget {
   final String? Function(String?)? validator;
   final Widget? sufixicon;
   final bool? border;
+  final bool? readonly;
+  final BorderRadius? borderRadius;
 
   const CustomTextfield({
     super.key,
@@ -30,6 +34,8 @@ class CustomTextfield extends StatefulWidget {
     this.validator,
     this.sufixicon,
     this.border,
+    this.readonly,
+    this.borderRadius,
   });
 
   @override
@@ -37,71 +43,59 @@ class CustomTextfield extends StatefulWidget {
 }
 
 class _CustomTextfieldState extends State<CustomTextfield> {
-  bool isvisible = false;
+  final IsvisibleController isvisibleController =
+      Get.put(IsvisibleController());
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 47.h,
-      width:
-          widget.width ?? double.infinity, // Default full width if not provided
-      decoration: BoxDecoration(
-        color: widget.color,
-        border: widget.border != null
-            ? widget.borderColor != null
-                ? Border.all(
-                    color:
-                        widget.borderColor!) // Border only if color is provided
-                : null
-            : null,
-        borderRadius: const BorderRadius.all(Radius.circular(9)),
-        boxShadow: [
-          BoxShadow(
-            offset: Offset(0.0, 0.1.h),
-            blurRadius: 1.1.w,
-            spreadRadius: -1.w,
-          ),
-        ],
+    return TextFormField(
+      obscureText: isvisibleController.isvisible.value,
+      controller: widget.controller,
+      keyboardType: widget.inputType,
+      textAlign: TextAlign.start,
+      textAlignVertical: TextAlignVertical.center,
+      readOnly: widget.readonly ?? false,
+      style: TextStyle(
+        color: Appcolors.Colorblack,
+        fontSize: 16.sp,
       ),
-      child: TextFormField(
-        obscureText: isvisible,
-        controller: widget.controller,
-        keyboardType: widget.inputType,
-        textAlign: TextAlign.start,
-        textAlignVertical: TextAlignVertical.center,
-        maxLines: null,
-        style: TextStyle(
+      validator: widget.validator,
+      decoration: InputDecoration(
+        fillColor: widget.color,
+        filled: true,
+        prefixIcon: widget.iconData != null
+            ? Icon(
+                widget.iconData,
+                color: Appcolors.Colorblack,
+                size: 24.sp,
+              )
+            : null,
+        suffixIcon: widget.showSuffixIcon
+            ? IconButton(
+                onPressed: () {
+                  isvisibleController.updateValue();
+                },
+                icon: Icon(isvisibleController.isvisible.value
+                    ? Icons.visibility
+                    : Icons.visibility_off))
+            : widget.sufixicon,
+        hintText: widget.labeltext,
+        hintStyle: TextStyle(
           color: Appcolors.Colorblack,
           fontSize: 16.sp,
         ),
-        validator: widget.validator,
-        decoration: InputDecoration(
-          prefixIcon: widget.iconData != null
-              ? Icon(
-                  widget.iconData,
-                  color: Appcolors.Colorblack,
-                  size: 24.sp,
-                )
-              : null,
-          suffixIcon: widget.showSuffixIcon
-              ? IconButton(
-                  onPressed: () {
-                    setState(() {
-                      isvisible = !isvisible;
-                    });
-                  },
-                  icon:
-                      Icon(isvisible ? Icons.visibility : Icons.visibility_off))
-              : widget.sufixicon,
-          hintText: widget.labeltext,
-          hintStyle: TextStyle(
-            color: Appcolors.Colorblack,
-            fontSize: 16.sp,
+        enabledBorder: OutlineInputBorder(
+          borderRadius: widget.borderRadius ?? BorderRadius.circular(15.r),
+          borderSide: BorderSide(
+            color: Appcolors.Colorgrey.shade200,
+            width: 1.w,
           ),
-          border: OutlineInputBorder(
-            borderSide: BorderSide.none,
-            borderRadius: BorderRadius.circular(80),
-          ),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: widget.borderRadius ?? BorderRadius.circular(15.r),
+          borderSide: BorderSide(
+              color: Appcolors.Colorgrey.shade400,
+              width: 0.5.w), // When focused
         ),
       ),
     );
